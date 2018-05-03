@@ -1,27 +1,32 @@
+import { ModifierCollection } from "../Grammar";
+
 /**
  * @author Kate
  */
 
-function isVowel(c) {
+function isVowel(c: string): boolean {
 	var c2 = c.toLowerCase();
 	return (c2 === 'a') || (c2 === 'e') || (c2 === 'i') || (c2 === 'o') || (c2 === 'u');
 };
 
-function isAlphaNum(c) {
+function isAlphaNum(c: string): boolean {
 	return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9');
 };
-function escapeRegExp(str) {
+function escapeRegExp(str: string): string {
 	return str.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, "\\$1");
 }
 
-var baseEngModifiers = {
+var baseEngModifiers: ModifierCollection = {
 
-	replace : function(s, params) {
+	replace: function (s, params) {
 		//http://stackoverflow.com/questions/1144783/replacing-all-occurrences-of-a-string-in-javascript
+		if (!params || params.length < 2)
+			throw "Missing regex in modifier";
+
 		return s.replace(new RegExp(escapeRegExp(params[0]), 'g'), params[1]);
 	},
 
-	capitalizeAll : function(s) {
+	capitalizeAll: function (s) {
 		var s2 = "";
 		var capNext = true;
 		for (var i = 0; i < s.length; i++) {
@@ -42,11 +47,11 @@ var baseEngModifiers = {
 		return s2;
 	},
 
-	capitalize : function(s) {
+	capitalize: function (s) {
 		return s.charAt(0).toUpperCase() + s.substring(1);
 	},
 
-	a : function(s) {
+	a: function (s) {
 		if (s.length > 0) {
 			if (s.charAt(0).toLowerCase() === 'u') {
 				if (s.length > 2) {
@@ -64,7 +69,7 @@ var baseEngModifiers = {
 
 	},
 
-	firstS : function(s) {
+	firstS: function (s) {
 		console.log(s);
 		var s2 = s.split(" ");
 
@@ -73,49 +78,49 @@ var baseEngModifiers = {
 		return finished;
 	},
 
-	s : function(s) {
-		switch (s.charAt(s.length -1)) {
-		case 's':
-			return s + "es";
-			break;
-		case 'h':
-			return s + "es";
-			break;
-		case 'x':
-			return s + "es";
-			break;
-		case 'y':
-			if (!isVowel(s.charAt(s.length - 2)))
-				return s.substring(0, s.length - 1) + "ies";
-			else
+	s: function (s) {
+		switch (s.charAt(s.length - 1)) {
+			case 's':
+				return s + "es";
+				break;
+			case 'h':
+				return s + "es";
+				break;
+			case 'x':
+				return s + "es";
+				break;
+			case 'y':
+				if (!isVowel(s.charAt(s.length - 2)))
+					return s.substring(0, s.length - 1) + "ies";
+				else
+					return s + "s";
+				break;
+			default:
 				return s + "s";
-			break;
-		default:
-			return s + "s";
 		}
 	},
-	ed : function(s) {
-		switch (s.charAt(s.length -1)) {
-		case 's':
-			return s + "ed";
-			break;
-		case 'e':
-			return s + "d";
-			break;
-		case 'h':
-			return s + "ed";
-			break;
-		case 'x':
-			return s + "ed";
-			break;
-		case 'y':
-			if (!isVowel(s.charAt(s.length - 2)))
-				return s.substring(0, s.length - 1) + "ied";
-			else
+	ed: function (s) {
+		switch (s.charAt(s.length - 1)) {
+			case 's':
+				return s + "ed";
+				break;
+			case 'e':
 				return s + "d";
-			break;
-		default:
-			return s + "ed";
+				break;
+			case 'h':
+				return s + "ed";
+				break;
+			case 'x':
+				return s + "ed";
+				break;
+			case 'y':
+				if (!isVowel(s.charAt(s.length - 2)))
+					return s.substring(0, s.length - 1) + "ied";
+				else
+					return s + "d";
+				break;
+			default:
+				return s + "ed";
 		}
 	}
 };

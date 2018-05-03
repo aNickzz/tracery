@@ -29,18 +29,18 @@ function makeGrammar() {
 	var keys = "ABCDEFGH".split("");
 
 	var ruleGrammar = tracery.createGrammar({
-		key : keys,
-		
-		modifier : ["capitalize", "s", "ed"],
-		
+		key: keys,
+
+		modifier: ["capitalize", "s", "ed"],
+
 		character: "aaabbcccdddddeeeeefffghhhiijklmmnooopqrrrrsssssttttuuvwxyz....,,,!!??".split(""),
 		plaintext: ["#character##plaintext#", "#character#"],
-		
-		tagContents : ["#key#", "#key#.#modifier#"],
-		section : ["#plaintext#", "#plaintext#", "#tagContents.inTags#"],
-		rule : ["#section#", "#section##section#", "#section##section##section#"],
-		multiRuleSet : ["#rule.inQuotes#", "#multiRuleSet#,#rule.inQuotes#", "#multiRuleSet#,#rule.inQuotes#"],
-		ruleset : ["#rule.inQuotes#", "#multiRuleSet.inBrackets#", "#multiRuleSet.inBrackets#"],
+
+		tagContents: ["#key#", "#key#.#modifier#"],
+		section: ["#plaintext#", "#plaintext#", "#tagContents.inTags#"],
+		rule: ["#section#", "#section##section#", "#section##section##section#"],
+		multiRuleSet: ["#rule.inQuotes#", "#multiRuleSet#,#rule.inQuotes#", "#multiRuleSet#,#rule.inQuotes#"],
+		ruleset: ["#rule.inQuotes#", "#multiRuleSet.inBrackets#", "#multiRuleSet.inBrackets#"],
 	});
 
 	ruleGrammar.modifiers.inQuotes = function(s) {
