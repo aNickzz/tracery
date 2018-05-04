@@ -5,29 +5,29 @@ import { Symbol } from "./Symbol";
 import { NodeAction } from "./NodeAction";
 
 export class TraceryNode {
-	private errors: Array<string> = [];
 	private expansionErrors: Array<string> = [];
 	private depth: number;
 
 	private raw: Rule;
 
-	private type: any;
 
 	private isExpanded: boolean;
-	private childRule: Rule | undefined;
+	public childRule: Rule | undefined;
 
 	private preactions: Array<NodeAction> | undefined;
 	private postactions: Array<NodeAction> | undefined;
 
-	private symbol: string | undefined;
 	private modifiers: Array<string> | undefined;
 
-	private action: NodeAction | undefined;
+	public action: NodeAction | undefined;
 
+	public errors: Array<string> = [];
+	public symbol: string | undefined;
 	public finishedText: string = "";
 	public grammar: Grammar;
 	public parent: TraceryNode | null;
 	public children: Array<TraceryNode> = [];
+	public type: any;
 
 	constructor(private tracery: Tracery, parent: TraceryNode | Grammar, public childIndex: number, settings: Section) {
 
@@ -126,6 +126,8 @@ export class TraceryNode {
 					this.postactions = [];
 
 					let parsed = this.tracery.parseTag(this.raw);
+					if (parsed == null)
+						return;
 
 					// Break into symbol actions and modifiers
 					this.symbol = parsed.symbol;

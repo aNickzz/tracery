@@ -13,7 +13,6 @@ tracery.Grammar.prototype.calculateDepth = function(originWord) {
 			visits: [],
 			leafPct: 0,
 		};
-
 		// Flag if a leaf symbol
 		var rules = symbol.getActiveRules();
 		//   console.log(rules);

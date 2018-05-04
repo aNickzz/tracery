@@ -16,7 +16,7 @@ function escapeRegExp(str: string): string {
 	return str.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, "\\$1");
 }
 
-var baseEngModifiers: ModifierCollection = {
+export var baseEngModifiers: ModifierCollection = {
 
 	replace: function (s, params) {
 		//http://stackoverflow.com/questions/1144783/replacing-all-occurrences-of-a-string-in-javascript
@@ -82,19 +82,15 @@ var baseEngModifiers: ModifierCollection = {
 		switch (s.charAt(s.length - 1)) {
 			case 's':
 				return s + "es";
-				break;
 			case 'h':
 				return s + "es";
-				break;
 			case 'x':
 				return s + "es";
-				break;
 			case 'y':
 				if (!isVowel(s.charAt(s.length - 2)))
 					return s.substring(0, s.length - 1) + "ies";
 				else
 					return s + "s";
-				break;
 			default:
 				return s + "s";
 		}
@@ -103,22 +99,17 @@ var baseEngModifiers: ModifierCollection = {
 		switch (s.charAt(s.length - 1)) {
 			case 's':
 				return s + "ed";
-				break;
 			case 'e':
 				return s + "d";
-				break;
 			case 'h':
 				return s + "ed";
-				break;
 			case 'x':
 				return s + "ed";
-				break;
 			case 'y':
 				if (!isVowel(s.charAt(s.length - 2)))
 					return s.substring(0, s.length - 1) + "ied";
 				else
 					return s + "d";
-				break;
 			default:
 				return s + "ed";
 		}

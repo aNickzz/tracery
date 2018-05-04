@@ -27,7 +27,6 @@ class NodeIterator {
 					log: this.itSpacer + "Enter " + this.node
 				};
 
-				break;
 			case 1:
 				if (!this.node.children || this.node.children.length === 0) {
 					this.mode = 2;
@@ -42,7 +41,6 @@ class NodeIterator {
 						log: this.itSpacer + "starting 0 of " + childCount + " children"
 					};
 				}
-				break;
 			case 2:
 				this.itSpacer = this.itSpacer.substring(3);
 
@@ -71,7 +69,6 @@ class NodeIterator {
 
 				}
 
-				break;
 		};
 
 	}

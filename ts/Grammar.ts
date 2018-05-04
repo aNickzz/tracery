@@ -79,7 +79,7 @@ export class Grammar {
 		return root;
 	}
 
-	expand(rule: Rule, allowEscapeChars: boolean) {
+	expand(rule: Rule, allowEscapeChars: boolean = false) {
 		var root = this.createRoot(rule);
 		root.expand();
 		if (!allowEscapeChars)

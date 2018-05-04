@@ -1,0 +1,35 @@
+{
+  "name": "tracery3",
+  "version": "1.0.0",
+  "description": "TypeScript port of Tracery",
+  "main": "final.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aNickzz/tracery.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/aNickzz/tracery/issues"
+  },
+  "homepage": "https://github.com/aNickzz/tracery#readme",
+  "devDependencies": {
+    "browserify": "^16.2.0",
+    "common-shakeify": "^0.4.6",
+    "del": "^3.0.0",
+    "errorify": "^0.3.1",
+    "gulp": "^3.9.1",
+    "gulp-typings": "^2.0.4",
+    "run-sequence": "^2.2.1",
+    "tsify": "^4.0.0",
+    "typescript": "^2.8.3",
+    "vinyl-source-stream": "^2.0.0",
+    "watchify": "^3.11.0"
+  },
+  "dependencies": {
+    "@types/jquery": "^3.3.1",
+    "jquery": "^3.3.1",
+    "seedrandom": "^2.4.3"
+  }
+}

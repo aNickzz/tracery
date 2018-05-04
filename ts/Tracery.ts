@@ -78,7 +78,7 @@ export class Tracery {
 
 	// Parse the contents of a tag
 	//TODO: Don't know what a tag is yet
-	parseTag(tagContents: Rule) : ParseTagResult {
+	parseTag(tagContents: Rule) : ParseTagResult | null {
 
 		const preactions: Array<Section> = [];
 		//TODO: postactions is always empty
@@ -102,7 +102,8 @@ export class Tracery {
 		}
 
 		if (symbolSection === null) {
-			throw ("no main section in " + tagContents);
+			console.log ("no main section in " + tagContents);
+			return null;
 		} else {
 			const components = symbolSection.split(".");
 			return {
