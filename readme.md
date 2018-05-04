@@ -2,9 +2,20 @@
 
 ## About
 Tracery was developed by Kate Compton, beginning March 2013 as a class assignment.
-This is version 0.7
-(This is the first numbered version of Tracery, chosen arbitrarily. All basic syntax is stable, but some advanced features like nested rules, if-statements, and modifiers with parameters are still in flux)
+This is version 0.8
 
+## Setup
+
+1. Install Node.js
+2. `git clone git@github.com:aNickzz/tracery.git`
+3. `cd tracery`
+4. `npm install`
+5. `npm install --global gulp`
+6. `gulp`
+7. Allow everything to compile, then optionally Ctrl+C to stop gulp.
+8. Open tests.html in your browser
+
+This is not an interactive page right now, i've only just got this thing compiling at all.
 
 ## Basic usage
 
