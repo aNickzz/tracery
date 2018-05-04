@@ -239,12 +239,18 @@ const defaultGrammar = {
 	]
 };
 
-$('#InputBox').val(JSON.stringify(defaultGrammar));
+$('#InputBox').val(JSON.stringify(defaultGrammar, null, 4)); 
+
+declare var ace: any;
+
+var editor = ace.edit("InputBox");
+editor.setTheme("ace/theme/monokai");
+editor.session.setMode("ace/mode/json");
 
 $('#Regenerate').on('click', e => {
 	e.preventDefault();
 
-	let input = <string>$('#InputBox').val();
+	let input = <string>editor.getValue();
 	let rawGrammar = JSON.parse(input);
 
 	let grammar = tracery.createGrammar(<RawGrammar>rawGrammar);
