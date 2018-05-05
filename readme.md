@@ -14,9 +14,7 @@ This is version 0.8
 5. `npm install --global gulp`
 6. `gulp`
 7. Allow everything to compile, then optionally Ctrl+C to stop gulp.
-8. Open tests.html in your browser
-
-This is not an interactive page right now, i've only just got this thing compiling at all.
+8. Open interactive.html in your browser
 
 ## Basic usage
 
