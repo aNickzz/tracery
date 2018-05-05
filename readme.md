@@ -8,13 +8,19 @@ This is version 0.8
 ## Setup
 
 1. Install Node.js
+    * This will install the Node Package Manager (npm) required in steps 4. and 5.
 2. `git clone git@github.com:aNickzz/tracery.git`
+    * This will download the latest version of the project.
+    * Alternatively you could download and extract a zip of the project from the GitHub page
 3. `cd tracery`
+    * Navigate to the location where you cloned / unzipped the project
 4. `npm install`
+    * This will install all the required packages
 5. `npm install --global gulp`
-6. `gulp`
-7. Allow everything to compile, then optionally Ctrl+C to stop gulp.
-8. Open interactive.html in your browser
+    * Gulp is a build tool that you'll use in the next step
+6. `gulp build`
+    * This compiles the TypeScript and creates some JavaScript files in a `js` directory. These are used by the various `.html` files in the project.
+7. Open `interactive.html` in your browser
 
 ## Basic usage
 

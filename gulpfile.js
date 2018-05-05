@@ -58,14 +58,14 @@ gulp.task('tsc-browserify-src', () => {
 		'js');
 });
 
-gulp.task('bundle-all-entries', () => {
+gulp.task('build', () => {
 	return bundleFiles(fs.readdirSync('./ts/entries').filter(name => name.endsWith('.ts')).map(name => name.substr(0, name.length - 3)));
 });
 
 gulp.task('default', (done) => {
-	runSequence(['clean', 'installTypings'], 'bundle-all-entries', () => {
+	runSequence(['clean', 'installTypings'], 'build', () => {
 		console.log('Watching...')
 		gulp.watch(['ts/**/*.ts'],
-			['bundle-all-entries']);
+			['build']);
 	});
 });
