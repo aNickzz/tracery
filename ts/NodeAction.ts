@@ -1,5 +1,5 @@
 import { TraceryNode } from "./TraceryNode";
-import { Rule } from "./RuleSet";
+import { RawRule } from "./RuleSet";
 import { Tracery } from "./Tracery";
 
 declare type RawNodeAction = string;
@@ -22,7 +22,7 @@ export enum NodeActionType {
 // 2 function: 
 export class NodeAction {
 	private target: string;
-	private rule: Rule | undefined;
+	private rule: RawRule | undefined;
 
 	private ruleSections: Array<string> | undefined;
 	private finishedRules: Array<string> | undefined;

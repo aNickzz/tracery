@@ -1,8 +1,10 @@
-import { Distribution, Rule } from "./RuleSet";
+import { Distribution, RawRule } from "./RuleSet";
 import { TraceryNode } from "./TraceryNode";
-import { Symbol } from "./Symbol";
+import { Symbol, SymbolDefinition } from "./Symbol";
 import { Tracery } from "./Tracery";
 import { NodeAction } from "./NodeAction";
+import { Collection } from "./Util";
+import { Modifier } from "./Modifier";
 /**
  * The raw JSON text that is loaded by Tracery to define the grammar
  */
@@ -10,27 +12,19 @@ export interface RawGrammar {
 	[propName: string]: SymbolDefinition;
 }
 
-export type SymbolDefinition = string | Array<string>;
 
-/**
- * A function that mutates string expansions. E.g. the "a" modifier seen after the dot in "#noun.a#" prepends the string returned by the "name" symbol with "a" or "an" depending on the first character.
- * 
- * Modifiers come in @see ModifierCollection objects
- */
-export type Modifier = (text: string, params?: Array<string>) => string;
-export interface ModifierCollection { [propName: string]: Modifier }
-export interface SymbolCollection { [propName: string]: Symbol }
+
 
 export class Grammar {
 	private raw: RawGrammar;
-	private symbols: SymbolCollection;
-	private errors: Array<string>;
+	private symbols: Collection<Symbol>;
+	private errors: ErrorLog;
 
-	private subgrammars: Array<Grammar> = [];
+	private subGrammars: Array<Grammar> = [];
 
 	//TODO: Create getter/setters
 	public distribution: Distribution | null = null;
-	public modifiers: ModifierCollection;
+	public modifiers: Collection<Modifier>;
 
 	constructor(private tracery: Tracery, raw: RawGrammar) {
 		this.raw = {};
@@ -47,7 +41,7 @@ export class Grammar {
 		}
 	}
 
-	addModifiers(mods: ModifierCollection) {
+	addModifiers(mods: Collection<Modifier>) {
 		for (var key in mods) {
 			this.modifiers[key] = mods[key];
 		};
@@ -57,7 +51,7 @@ export class Grammar {
 
 		this.raw = raw;
 		this.symbols = {};
-		this.subgrammars = [];
+		this.subGrammars = [];
 
 		if (this.raw) {
 			// Add all rules to the grammar
@@ -69,8 +63,8 @@ export class Grammar {
 		}
 	}
 
-	createRoot(rule: Rule) {
-		// Create a node and subnodes
+	createRoot(rule: RawRule) {
+		// Create a node and subNodes
 		var root = new TraceryNode(this.tracery, this, 0, {
 			type: -1,
 			raw: rule,
@@ -79,7 +73,7 @@ export class Grammar {
 		return root;
 	}
 
-	expand(rule: Rule, allowEscapeChars: boolean = false) {
+	expand(rule: RawRule, allowEscapeChars: boolean = false) {
 		var root = this.createRoot(rule);
 		root.expand();
 		if (!allowEscapeChars)
@@ -88,7 +82,7 @@ export class Grammar {
 		return root;
 	}
 
-	flatten(rule: Rule, allowEscapeChars: boolean): string {
+	flatten(rule: RawRule, allowEscapeChars: boolean): string {
 		var root = this.expand(rule, allowEscapeChars);
 
 		return root.finishedText;
@@ -122,18 +116,18 @@ export class Grammar {
 		this.symbols[key].popRules();
 	}
 
-	selectRule(key: string, node: TraceryNode, errors: Array<string>): Rule | null {
+	selectRule(key: string, node: TraceryNode, errors: ErrorLog): RawRule | null {
 		if (this.symbols[key]) {
 			var rule = this.symbols[key].selectRule(node, errors);
 
 			return rule;
 		}
 
-		// Failover to alternative subgrammars
-		for (var i = 0; i < this.subgrammars.length; i++) {
+		// Fail-over to alternative subGrammars
+		for (var i = 0; i < this.subGrammars.length; i++) {
 
-			if (this.subgrammars[i].symbols[key])
-				return this.subgrammars[i].symbols[key].selectRule();
+			if (this.subGrammars[i].symbols[key])
+				return this.subGrammars[i].symbols[key].selectRule();
 		}
 
 		// No symbol?

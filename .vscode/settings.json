@@ -1,4 +1,9 @@
 {
 	"todo-tree.flat": false,
-	"gulp.autoDetect": "on"
+	"gulp.autoDetect": "on",
+	"cSpell.words": [
+		"Hashtag",
+		"Nickzz",
+		"Ruleset"
+	]
 }

@@ -1,22 +1,9 @@
-import { ModifierCollection } from "../Grammar";
+import { Collection, escapeRegExp, isAlphaNum, isVowel } from "../Util";
+import { Modifier } from "../Modifier";
 
-/**
- * @author Kate
- */
 
-function isVowel(c: string): boolean {
-	var c2 = c.toLowerCase();
-	return (c2 === 'a') || (c2 === 'e') || (c2 === 'i') || (c2 === 'o') || (c2 === 'u');
-};
 
-function isAlphaNum(c: string): boolean {
-	return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9');
-};
-function escapeRegExp(str: string): string {
-	return str.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, "\\$1");
-}
-
-export var baseEngModifiers: ModifierCollection = {
+export var DefaultModifiersEn: Collection<Modifier> = {
 
 	replace: function (s, params) {
 		//http://stackoverflow.com/questions/1144783/replacing-all-occurrences-of-a-string-in-javascript
@@ -73,7 +60,7 @@ export var baseEngModifiers: ModifierCollection = {
 		console.log(s);
 		var s2 = s.split(" ");
 
-		var finished = baseEngModifiers.s(s2[0]) + " " + s2.slice(1).join(" ");
+		var finished = DefaultModifiersEn.s(s2[0]) + " " + s2.slice(1).join(" ");
 		console.log(finished);
 		return finished;
 	},

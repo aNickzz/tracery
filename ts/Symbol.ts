@@ -1,10 +1,11 @@
 
 import { Tracery } from "./Tracery";
 import { Grammar } from "./Grammar";
-import { RuleSet, RawRuleSet, Rule } from "./RuleSet";
+import { RuleSet, RawRuleSet, RawRule } from "./RuleSet";
 import { TraceryNode } from "./TraceryNode";
 
 
+export type SymbolDefinition = string | Array<string>;
 export class Symbol {
 	private baseRules: RuleSet;
 	private stack: Array<RuleSet> = [];
@@ -20,7 +21,7 @@ export class Symbol {
 
 	clearState() {
 
-		// Clear the stack and clear all ruleset usages
+		// Clear the stack and clear all ruleSet usages
 		this.stack = [this.baseRules];
 
 		this.uses = [];
@@ -36,7 +37,7 @@ export class Symbol {
 		this.stack.pop();
 	}
 
-	selectRule(node?: TraceryNode, errors: Array<string> = []):Rule | null {
+	selectRule(node?: TraceryNode, errors: Array<string> = []):RawRule | null {
 		this.uses.push({
 			node: node
 		});

@@ -1,7 +1,7 @@
 import $ = require("jquery");
 import { Tracery } from "../Tracery";
 import { RawGrammar } from "../Grammar";
-import { baseEngModifiers } from "../tracery/mods-eng-basic";
+import { DefaultModifiersEn } from "../default/modifiers-en";
 
 const tracery = new Tracery();
 
@@ -254,7 +254,7 @@ $('#Regenerate').on('click', e => {
 	let rawGrammar = JSON.parse(input);
 
 	let grammar = tracery.createGrammar(<RawGrammar>rawGrammar);
-	grammar.addModifiers(baseEngModifiers);
+	grammar.addModifiers(DefaultModifiersEn);
 
 	let root = <string>rawGrammar.origin[0];
 	let result = grammar.expand(root);

@@ -1,12 +1,12 @@
 import { Tracery } from "./Tracery";
 import { Grammar } from "./Grammar";
 
-import { range } from "./Util";
+import { range, fyShuffle } from "./Util";
 // Sets of rules
-// Can also contain conditional or fallback sets of rulesets)
+// Can also contain conditional or fall-back sets of ruleSets)
 
-export type Rule = string;
-export type RawRuleSet = Rule | Array<Rule> | object;
+export type RawRule = string;
+export type RawRuleSet = RawRule | Array<RawRule> | object;
 
 export enum Distribution {
 	/**
@@ -35,7 +35,7 @@ export class RuleSet {
 	//TODO: Better type
 	private conditionalRule: any = false;
 	private conditionalValues: { [propName: string]: RuleSet } = {};
-	private defaultRules: Array<Rule> = [];
+	private defaultRules: Array<RawRule> = [];
 	private falloff = 1;
 	private shuffledDeck: Array<number> = [];
 
@@ -56,7 +56,7 @@ export class RuleSet {
 
 	};
 
-	selectRule(errors: Array<string> = []): Rule | null {
+	selectRule(errors: ErrorLog = []): RawRule | null {
 		// console.log("Get rule", this.raw);
 		// Is there a conditional?
 
@@ -97,9 +97,10 @@ export class RuleSet {
 					// create a shuffle desk
 					if (this.shuffledDeck.length === 0) {
 						// make an array
-						this.shuffledDeck = this.tracery.fyshuffle(
-							range(this.defaultRules.length)
-							/*, this.falloff*/
+						this.shuffledDeck = fyShuffle(
+							range(this.defaultRules.length),
+							/*this.falloff,*/
+							this.tracery.random
 						);
 					}
 

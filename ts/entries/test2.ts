@@ -1,7 +1,7 @@
 import { Tracery } from "../Tracery";
-import { baseEngModifiers } from "../tracery/mods-eng-basic";
 
 import $ = require("jquery");
+import { DefaultModifiersEn } from "../default/modifiers-en";
 /**
  * @author Kate
  */
@@ -66,7 +66,7 @@ function makeGrammar():string | undefined {
 	var raw = "{" + symbols.join(",\n") + "}";
 
 	var grammar = tracery.createGrammar(JSON.parse(raw));
-	grammar.addModifiers(baseEngModifiers);
+	grammar.addModifiers(DefaultModifiersEn);
 
 	console.log(raw);
 	for (var i = 0; i < keys.length; i++) {

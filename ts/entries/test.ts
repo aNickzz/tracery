@@ -1,9 +1,9 @@
 import { Tracery } from "../Tracery";
-import { baseEngModifiers } from "../tracery/mods-eng-basic";
 import { TraceryNode } from "../TraceryNode";
 
 
 import $ = require("jquery");
+import { DefaultModifiersEn } from "../default/modifiers-en";
 
 /**
  * @author Kate
@@ -45,7 +45,7 @@ function runTests() {
 
 	});
 
-	grammar.addModifiers(baseEngModifiers);
+	grammar.addModifiers(DefaultModifiersEn);
 
 	// Use fixed number instead of random.
 	// Math.seedrandom(Math.random());

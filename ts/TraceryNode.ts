@@ -1,27 +1,23 @@
-import { RawRuleSet, Rule } from "./RuleSet";
+import { RawRuleSet, RawRule } from "./RuleSet";
 import { Grammar } from "./Grammar";
-import { Type, Tracery, Section } from "./Tracery";
+import { Tracery } from "./Tracery";
 import { Symbol } from "./Symbol";
 import { NodeAction } from "./NodeAction";
+import { Section, SectionType } from "./Section";
+import { Parser } from "./Parser";
 
 export class TraceryNode {
-	private expansionErrors: Array<string> = [];
+	private expansionErrors: ErrorLog = [];
 	private depth: number;
-
-	private raw: Rule;
-
-
-	private isExpanded: boolean;
-	public childRule: Rule | undefined;
-
-	private preactions: Array<NodeAction> | undefined;
-	private postactions: Array<NodeAction> | undefined;
-
+	private raw: RawRule;
+	private preActions: Array<NodeAction> | undefined;
+	private postActions: Array<NodeAction> | undefined;
 	private modifiers: Array<string> | undefined;
+	private isExpanded: boolean;
 
+	public childRule: RawRule | undefined;
 	public action: NodeAction | undefined;
-
-	public errors: Array<string> = [];
+	public errors: ErrorLog = [];
 	public symbol: string | undefined;
 	public finishedText: string = "";
 	public grammar: Grammar;
@@ -67,14 +63,14 @@ export class TraceryNode {
 
 	// Expand the node (with the given child rule)
 	//  Make children if the node has any
-	expandChildren(childRule: Rule, preventRecursion: boolean) {
+	expandChildren(childRule: RawRule, preventRecursion: boolean) {
 		this.children = [];
 		this.finishedText = "";
 
 		// Set the rule for making children,
 		// and expand it into section
 		this.childRule = childRule;
-		let parseResult = this.tracery.parse(childRule);
+		let parseResult = Parser.parse(childRule);
 
 		// Add errors to this
 		if (parseResult.errors.length > 0) {
@@ -109,23 +105,23 @@ export class TraceryNode {
 
 			switch (this.type) {
 				// Raw rule
-				case Type.Raw:
+				case SectionType.Raw:
 
 					this.expandChildren(this.raw, preventRecursion);
 					break;
 
-				// plaintext, do nothing but copy text into finsihed text
-				case Type.Main:
+				// plaintext, do nothing but copy text into finished text
+				case SectionType.Plaintext:
 					this.finishedText = this.raw;
 					break;
 
 				// Tag
-				case Type.OpenSquare:
+				case SectionType.Tag:
 					// Parse to find any actions, and figure out what the symbol is
-					this.preactions = [];
-					this.postactions = [];
+					this.preActions = [];
+					this.postActions = [];
 
-					let parsed = this.tracery.parseTag(this.raw);
+					let parsed = Parser.parseTag(this.raw);
 					if (parsed == null)
 						return;
 
@@ -133,26 +129,26 @@ export class TraceryNode {
 					this.symbol = parsed.symbol;
 					this.modifiers = parsed.modifiers;
 
-					// Create all the preactions from the raw syntax
-					for (let i = 0; i < parsed.preactions.length; i++) {
-						this.preactions[i] = new NodeAction(this.tracery, this, parsed.preactions[i].raw);
+					// Create all the preActions from the raw syntax
+					for (let i = 0; i < parsed.preActions.length; i++) {
+						this.preActions[i] = new NodeAction(this.tracery, this, parsed.preActions[i].raw);
 					}
-					for (let i = 0; i < parsed.postactions.length; i++) {
-						//   this.postactions[i] = new NodeAction(this, parsed.postactions[i].raw);
+					for (let i = 0; i < parsed.postActions.length; i++) {
+						//   this.postActions[i] = new NodeAction(this, parsed.postActions[i].raw);
 					}
 
-					// Make undo actions for all preactions (pops for each push)
-					for (let i = 0; i < this.preactions.length; i++) {
-						if (this.preactions[i].type === 0) {
-							let undoAction = this.preactions[i].createUndo();
+					// Make undo actions for all preActions (pops for each push)
+					for (let i = 0; i < this.preActions.length; i++) {
+						if (this.preActions[i].type === 0) {
+							let undoAction = this.preActions[i].createUndo();
 							if (undoAction !== null)
-								this.postactions.push(undoAction);
+								this.postActions.push(undoAction);
 						}
 					}
 
-					// Activate all the preactions
-					for (let i = 0; i < this.preactions.length; i++) {
-						this.preactions[i].activate();
+					// Activate all the preActions
+					for (let i = 0; i < this.preActions.length; i++) {
+						this.preActions[i].activate();
 					}
 
 					this.finishedText = this.raw;
@@ -198,11 +194,11 @@ export class TraceryNode {
 					}
 
 					// Perform post-actions
-					for (var i = 0; i < this.postactions.length; i++) {
-						this.postactions[i].activate();
+					for (var i = 0; i < this.postActions.length; i++) {
+						this.postActions[i].activate();
 					}
 					break;
-				case Type.CloseSquare:
+				case SectionType.Action:
 
 					// Just a bare action?  Expand it!
 					this.action = new NodeAction(this.tracery, this, this.raw);
@@ -222,7 +218,6 @@ export class TraceryNode {
 	};
 
 	clearEscapeChars() {
-
 		this.finishedText = this.finishedText.replace(/\\\\/g, "DOUBLEBACKSLASH").replace(/\\/g, "").replace(/DOUBLEBACKSLASH/g, "\\");
 	};
 }
