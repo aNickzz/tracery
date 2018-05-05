@@ -18,6 +18,8 @@ This is version 0.8
 
 ## Basic usage
 
+**NOTE:** The below is leftover from the original project which was written in JavaScript. It kinda mostly applies to this project but it won't be exactly the same.
+
 ### Create a grammar
 
 Create an empty grammar:
