@@ -1,4 +1,3 @@
-import { RawRule } from "./RuleSet";
 import { Section, SectionType } from "./Section";
 
 export interface ParseResult { sections: Array<Section>, errors: ErrorLog };

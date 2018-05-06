@@ -1,4 +1,4 @@
-import { RawRuleSet, RawRule } from "./RuleSet";
+import { RawRuleSet } from "./RuleSet";
 import { Grammar } from "./Grammar";
 import { Tracery } from "./Tracery";
 import { Symbol } from "./Symbol";

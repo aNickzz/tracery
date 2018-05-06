@@ -1,5 +1,4 @@
 import { TraceryNode } from "./TraceryNode";
-import { RawRule } from "./RuleSet";
 import { Tracery } from "./Tracery";
 
 declare type RawNodeAction = string;

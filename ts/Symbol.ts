@@ -1,11 +1,10 @@
 
 import { Tracery } from "./Tracery";
 import { Grammar } from "./Grammar";
-import { RuleSet, RawRuleSet, RawRule } from "./RuleSet";
+import { RuleSet } from "./RuleSet";
 import { TraceryNode } from "./TraceryNode";
 
 
-export type SymbolDefinition = string | Array<string>;
 export class Symbol {
 	private baseRules: RuleSet;
 	private stack: Array<RuleSet> = [];
@@ -13,9 +12,9 @@ export class Symbol {
 
 	//TODO: Make better type
 	private uses: Array<{ node?: TraceryNode }> = [];
-	constructor(private tracery: Tracery, private grammar: Grammar, private key: string, private rawRules: RawRuleSet) {
-
-		this.baseRules = new RuleSet(tracery, grammar, rawRules);
+	constructor(private tracery: Tracery, private grammar: Grammar, private key: string, private rawRules: RawRuleDefinition) {
+		//TODO: remove cast
+		this.baseRules = new RuleSet(tracery, grammar, <Expansion>rawRules);
 		this.clearState();
 	}
 
@@ -28,7 +27,7 @@ export class Symbol {
 		this.baseRules.clearState();
 	}
 
-	pushRules(rawRules: RawRuleSet) {
+	pushRules(rawRules: Expansion) {
 		var rules = new RuleSet(this.tracery, this.grammar, rawRules);
 		this.stack.push(rules);
 	}

@@ -7,7 +7,7 @@ This is version 0.8
 
 ## Setup
 
-1. Install Node.js
+1. Install Node.js if you don't have it installed already
     * This will install the Node Package Manager (npm) required in steps 4. and 5.
 2. `git clone git@github.com:aNickzz/tracery.git`
     * This will download the latest version of the project.
@@ -23,6 +23,38 @@ This is version 0.8
 7. Open `interactive.html` in your browser
 
 ## Basic usage
+
+### TL:DR; Example
+
+(Subject to heavy change, but i'll try to keep this example updated)
+
+```TypeScript
+import { Tracery } from "../Tracery";
+import { RawGrammar } from "../Grammar";
+import { DefaultModifiersEn } from "../default/modifiers-en";
+
+const rawGrammar: RawGrammar = {
+    "origin": "Hello, my name is #name.capitalize#.",
+    "name"  : [
+        "bob",
+        "james",
+        "jordan",
+        "lucy",
+        "wendy"
+    ]
+};
+
+const tracery = new Tracery();
+const grammar = tracery.createGrammar(rawGrammar);
+
+//Load the default english modifiers like ".capitalize" and ".a"
+grammar.addModifiers(DefaultModifiersEn);
+
+let root = rawGrammar.origin;
+let result = grammar.expand(root);
+
+console.log(result.finishedText);
+```
 
 **NOTE:** The below is leftover from the original project which was written in JavaScript. It kinda mostly applies to this project but it won't be exactly the same.
 

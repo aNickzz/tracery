@@ -1,10 +1,30 @@
-import $ = require("jquery");
-import { Tracery } from "../Tracery";
-import { DefaultModifiersEn } from "../default/modifiers-en";
 
-const tracery = new Tracery();
+// New object syntax, produces:
+//  "Hello my name is Bob. I am 34 years old. My friends name is Joe"
+const example1: GrammarJSON = {
+	"origin": "#story->origin#",
+	"story": {
+		"properties": {
+			"mainCharacter": "#person#",
+			"secondCharacter": "#person#"
+		},
+		"expansions": {
+			"origin": "Hello my name is #mainCharacter->name#. I am #mainCharacter->age# years old. My friends name is #secondCharacter->name#"
+		}
+	},
+	"person": {
+		"properties": {
+			"name": "#unique(name).capitalizeAll#",
+			"age": "#number(5,50)#"
+		},
+	},
+	"name": [
+		"bob", "joe"
+	]
+};
 
-const defaultGrammar = {
+// Backwards compatible
+const example2: GrammarJSON = {
 	"origin": [
 		"You are #name#, #allegiance.a# #race# #class# #action#, #reasonClause#."
 	],
@@ -237,28 +257,3 @@ const defaultGrammar = {
 		"#hardLetter##secondLetter##vowel#"
 	]
 };
-
-$('#InputBox').val(JSON.stringify(defaultGrammar, null, 4)); 
-
-declare var ace: any;
-
-var editor = ace.edit("InputBox");
-editor.setTheme("ace/theme/monokai");
-editor.session.setMode("ace/mode/json");
-
-$('#Regenerate').on('click', e => {
-	e.preventDefault();
-
-	let input = <string>editor.getValue();
-	let rawGrammar = JSON.parse(input);
-
-	let grammar = tracery.createGrammar(<GrammarJSON>rawGrammar);
-	grammar.addModifiers(DefaultModifiersEn);
-
-	let root = <string>rawGrammar.origin[0];
-	let result = grammar.expand(root);
-
-	$('#Output').append(
-		$('<li>').text(result.finishedText)
-	);
-});

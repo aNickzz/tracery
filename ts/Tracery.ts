@@ -1,13 +1,10 @@
 import { TraceryNode } from "./TraceryNode";
-import { Grammar, RawGrammar } from "./Grammar";
+import { Grammar } from "./Grammar";
 import { Symbol } from "./Symbol";
-import { RuleSet, RawRule } from "./RuleSet";
+import { RuleSet } from "./RuleSet";
 import { NodeAction } from "./NodeAction";
 import { Section, SectionType } from "./Section";
 import { Parser } from "./Parser";
-
-
-export type Tag = string;
 
 export class Tracery {
 	private rng: () => number;
@@ -33,7 +30,7 @@ export class Tracery {
 	random() {
 		return this.rng();
 	}
-	createGrammar(raw: RawGrammar) {
+	createGrammar(raw: GrammarJSON) {
 		return new Grammar(this, raw);
 	}
 }

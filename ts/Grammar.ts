@@ -1,22 +1,17 @@
-import { Distribution, RawRule } from "./RuleSet";
+import { Distribution } from "./RuleSet";
 import { TraceryNode } from "./TraceryNode";
-import { Symbol, SymbolDefinition } from "./Symbol";
+import { Symbol } from "./Symbol";
 import { Tracery } from "./Tracery";
 import { NodeAction } from "./NodeAction";
 import { Collection } from "./Util";
 import { Modifier } from "./Modifier";
-/**
- * The raw JSON text that is loaded by Tracery to define the grammar
- */
-export interface RawGrammar {
-	[propName: string]: SymbolDefinition;
-}
+import { SectionType } from "./Section";
+
 
 
 
 
 export class Grammar {
-	private raw: RawGrammar;
 	private symbols: Collection<Symbol>;
 	private errors: ErrorLog;
 
@@ -26,8 +21,7 @@ export class Grammar {
 	public distribution: Distribution | null = null;
 	public modifiers: Collection<Modifier>;
 
-	constructor(private tracery: Tracery, raw: RawGrammar) {
-		this.raw = {};
+	constructor(private tracery: Tracery, private raw: GrammarJSON) {
 		this.modifiers = {};
 		this.symbols = {};
 		this.errors = [];
@@ -47,7 +41,7 @@ export class Grammar {
 		};
 	}
 
-	loadFromRawObj(raw: RawGrammar) {
+	loadFromRawObj(raw: GrammarJSON) {
 
 		this.raw = raw;
 		this.symbols = {};
@@ -66,7 +60,7 @@ export class Grammar {
 	createRoot(rule: RawRule) {
 		// Create a node and subNodes
 		var root = new TraceryNode(this.tracery, this, 0, {
-			type: -1,
+			type: SectionType.Raw,
 			raw: rule,
 		});
 
@@ -99,7 +93,7 @@ export class Grammar {
 	}
 
 	// Create or push rules
-	pushRules(key: string, rawRules: SymbolDefinition, sourceAction: NodeAction) {
+	pushRules(key: string, rawRules: Expansion, sourceAction: NodeAction) {
 
 		if (this.symbols[key] === undefined) {
 			this.symbols[key] = new Symbol(this.tracery, this, key, rawRules);

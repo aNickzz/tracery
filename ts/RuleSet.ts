@@ -5,8 +5,6 @@ import { range, fyShuffle } from "./Util";
 // Sets of rules
 // Can also contain conditional or fall-back sets of ruleSets)
 
-export type RawRule = string;
-export type RawRuleSet = RawRule | Array<RawRule> | object;
 
 export enum Distribution {
 	/**
@@ -43,7 +41,7 @@ export class RuleSet {
 	private distribution: Distribution | null = null;
 	private defaultUses: Array<number> | null = null;
 
-	constructor(private tracery: Tracery, private grammar: Grammar, private raw: RawRuleSet) {
+	constructor(private tracery: Tracery, private grammar: Grammar, private raw: Expansion) {
 
 		if (Array.isArray(raw)) {
 			this.defaultRules = raw;

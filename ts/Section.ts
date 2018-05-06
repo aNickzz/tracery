@@ -1,5 +1,3 @@
-import { RawRule } from "./RuleSet";
-
 export enum SectionType {
 	/** Needs parsing */
 	Raw = -1,
