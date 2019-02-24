@@ -1,25 +1,26 @@
-# Tracery
+# Tracery 3 v0.1.0
 
 ## About
 
 Tracery was developed by Kate Compton, beginning March 2013 as a class assignment.
-This is version 0.8
+
+This version was forked the [tracery2 branch](https://github.com/galaxykate/tracery/tree/tracery2) in Kate's repo, and converted to TypeScript.
 
 ## Setup
 
 1. Install Node.js if you don't have it installed already
-    * This will install the Node Package Manager (npm) required in steps 4. and 5.
+    - This will install the Node Package Manager (npm) required in steps 4. and 5.
 2. `git clone git@github.com:aNickzz/tracery.git`
-    * This will download the latest version of the project.
-    * Alternatively you could download and extract a zip of the project from the GitHub page
+    - This will download the latest version of the project.
+    - Alternatively you could download and extract a zip of the project from the GitHub page
 3. `cd tracery`
-    * Navigate to the location where you cloned / unzipped the project
+    - Navigate to the location where you cloned / unzipped the project
 4. `npm install`
-    * This will install all the required packages
+    - This will install all the required packages
 5. `npm install --global gulp`
-    * Gulp is a build tool that you'll use in the next step
+    - Gulp is a build tool that you'll use in the next step
 6. `gulp build`
-    * This compiles the TypeScript and creates some JavaScript files in a `js` directory. These are used by the various `.html` files in the project.
+    - This compiles the TypeScript and creates some JavaScript files in a `js` directory. These are used by the various `.html` files in the project.
 7. Open `interactive.html` in your browser
 
 ## Basic usage
@@ -82,7 +83,7 @@ Get the fully-expanded node from a rule, this will return a root node containing
 
     grammar.expand("#origin#");
 
-Get the root node from a rule *not* fully expanded (this allows for animating the expansion of the tree) TODO, this is still buggy and does not correctly set the "finishedText"
+Get the root node from a rule _not_ fully expanded (this allows for animating the expansion of the tree) TODO, this is still buggy and does not correctly set the "finishedText"
 
     grammar.expand("#origin#", true);
 
@@ -114,29 +115,29 @@ By using a local random number generator that takes a seed and controlling this 
 
 A Grammar is
 
-* *a dictionary of symbols*: a key-value object matching keys (the names of symbols) to expansion rules
-* optional metadata such as a title, edit data, and author
-* optional connectivity graphs describing how symbols call each other
+-   _a dictionary of symbols_: a key-value object matching keys (the names of symbols) to expansion rules
+-   optional metadata such as a title, edit data, and author
+-   optional connectivity graphs describing how symbols call each other
 
-*clearState*: symbols and rulesets have state (the stack, and possible ruleset state recording recently called rules).  This function clears any state, returning the dictionary to its original state;
+_clearState_: symbols and rulesets have state (the stack, and possible ruleset state recording recently called rules). This function clears any state, returning the dictionary to its original state;
 
-Grammars are usually created by feeding in a raw JSON grammar, which is then parsed into symbols and rules.  You can also build your own Grammar objects from scratch, without using this utility function, and can always edit the grammar after creating it.
+Grammars are usually created by feeding in a raw JSON grammar, which is then parsed into symbols and rules. You can also build your own Grammar objects from scratch, without using this utility function, and can always edit the grammar after creating it.
 
 ### Symbol
 
 A symbol is a **key** (usually a short human-readable string) and a set of expansion rules
 
-* the key
-* rulesetStack: the stack of expansion **rulesets** for this symbol.  This stack records the previous, inactive rulesets, and the current one.
-* optional connectivity data, such as average depth and average expansion length
+-   the key
+-   rulesetStack: the stack of expansion **rulesets** for this symbol. This stack records the previous, inactive rulesets, and the current one.
+-   optional connectivity data, such as average depth and average expansion length
 
 Putting a **key** in hashtags, in a Tracery syntax object, will create a expansion node for that symbol within the text.
 
-Each top-level key-value pair in the raw JSON object creates a **symbol**.  The symbol's *key* is set from the key, and the *value* determines the **ruleset**.
+Each top-level key-value pair in the raw JSON object creates a **symbol**. The symbol's _key_ is set from the key, and the _value_ determines the **ruleset**.
 
 ### Modifier
 
-A function that takes a string (and optionally parameters) and returns a string.  A set of these is included in mods-eng-basic.js.  Modifiers are applied, in order, after a tag is fully expanded.
+A function that takes a string (and optionally parameters) and returns a string. A set of these is included in mods-eng-basic.js. Modifiers are applied, in order, after a tag is fully expanded.
 
 To apply a modifier, add its name after a period, after the tag's main symbol:
 
@@ -150,25 +151,25 @@ Modifiers can have parameters, too! (soon they will can have parameter that cont
 
 ### Action
 
-An action that occurs when its node is expanded.  Built-in actions are
+An action that occurs when its node is expanded. Built-in actions are
 
-* Generating some rules "[key:#rule#]" and pushing them to the "key" symbol's rule stack.  If that symbol does not exist, it creates it.
-* Popping rules off of a rule stack, "[key:POP]"
-* Other functions
+-   Generating some rules "[key:#rule#]" and pushing them to the "key" symbol's rule stack. If that symbol does not exist, it creates it.
+-   Popping rules off of a rule stack, "[key:POP]"
+-   Other functions
 
-TODO: figure out syntax and implementation for generating *arrays* of rules, or other complex rulesets to push onto symbols' rulestacks
+TODO: figure out syntax and implementation for generating _arrays_ of rules, or other complex rulesets to push onto symbols' rulestacks
 
 TODO: figure out syntax and storage for calling other functions, especially for async APIs.
 
 ### Ruleset
 
-A ruleset is an object that defines a *getRule* function.  Calling this function may change the internal state of the ruleset, such as annotating which rules were most recently returned, or drawing and removing a rule from a shuffled list of available rules.
+A ruleset is an object that defines a _getRule_ function. Calling this function may change the internal state of the ruleset, such as annotating which rules were most recently returned, or drawing and removing a rule from a shuffled list of available rules.
 
 #### Basic ruleset
 
 A basic ruleset is just an array of options.
 
-They can be created by raw JSON by having an *array* or a *string* as the value, like this:
+They can be created by raw JSON by having an _array_ or a _string_ as the value, like this:
 "someKey":["rule0", "rule1", "some#complicated#rule"]
 If there is only one rule, it is acceptable short hand to leave off the array, but this only works with Strings.
 "someKey":"just one rule"
@@ -179,15 +180,15 @@ These use the default distribution of the Grammar that owns them, which itself d
 
 **Note:** this feature is under development, coming soon
 
-These rulesets are created when the raw JSON has an *object* rather than an *array* as the value.
+These rulesets are created when the raw JSON has an _object_ rather than an _array_ as the value.
 
 Some attributes of this object can be:
 
-* baseRules: a single ruleset,
-* ruleRanking: an array of rulesets, call *getRule* on each in order until one returns a value, if none do, return *baseRules*.*getRule*,
-* distribution: a new distribution to override the default)
-* conditionRule: a rule to expand
-* conditionValue: a value to match the expansion against
-* conditionSuccess: a ruleset to use if expanding *conditionRule* returns *conditionValue*, otherwise use *baseRules*
+-   baseRules: a single ruleset,
+-   ruleRanking: an array of rulesets, call _getRule_ on each in order until one returns a value, if none do, return _baseRules_._getRule_,
+-   distribution: a new distribution to override the default)
+-   conditionRule: a rule to expand
+-   conditionValue: a value to match the expansion against
+-   conditionSuccess: a ruleset to use if expanding _conditionRule_ returns _conditionValue_, otherwise use _baseRules_
 
 These can be nested, so it is possible to make a ruleset
