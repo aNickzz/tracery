@@ -1,35 +1,34 @@
 {
-  "name": "tracery3",
-  "version": "1.0.0",
-  "description": "TypeScript port of Tracery",
-  "main": "final.js",
-  "scripts": {},
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/aNickzz/tracery.git"
-  },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/aNickzz/tracery/issues"
-  },
-  "homepage": "https://github.com/aNickzz/tracery#readme",
-  "devDependencies": {
-    "browserify": "^16.2.0",
-    "common-shakeify": "^0.4.6",
-    "del": "^3.0.0",
-    "errorify": "^0.3.1",
-    "gulp": "^3.9.1",
-    "gulp-typings": "^2.0.4",
-    "run-sequence": "^2.2.1",
-    "tsify": "^4.0.0",
-    "typescript": "^2.8.3",
-    "vinyl-source-stream": "^2.0.0",
-    "watchify": "^3.11.0"
-  },
-  "dependencies": {
-    "@types/jquery": "^3.3.1",
-    "jquery": "^3.3.1",
-    "seedrandom": "^2.4.3"
-  }
+	"name": "tracery3",
+	"version": "1.0.0",
+	"description": "TypeScript port of Tracery",
+	"main": "final.js",
+	"scripts": {},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/aNickzz/tracery.git"
+	},
+	"author": "",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/aNickzz/tracery/issues"
+	},
+	"homepage": "https://github.com/aNickzz/tracery#readme",
+	"devDependencies": {
+		"browserify": "^16.5.0",
+		"common-shakeify": "^0.6.2",
+		"del": "^5.1.0",
+		"errorify": "^0.3.1",
+		"gulp": "^4.0.2",
+		"run-sequence": "^2.2.1",
+		"tsify": "^4.0.1",
+		"typescript": "^3.6.2",
+		"vinyl-source-stream": "^2.0.0",
+		"watchify": "^3.11.1"
+	},
+	"dependencies": {
+		"@types/jquery": "^3.3.31",
+		"jquery": "^3.4.1",
+		"seedrandom": "^3.0.3"
+	}
 }
