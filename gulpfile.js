@@ -4,10 +4,9 @@ const watchify = require('watchify');
 const errorify = require('errorify');
 const del = require('del');
 const tsify = require('tsify');
-const gulpTypings = require('gulp-typings');
 const source = require('vinyl-source-stream');
 const runSequence = require('run-sequence');
-const fs = require("fs");
+const fs = require('fs');
 const commonShake = require('common-shakeify');
 
 function createBrowserifier(entry) {
@@ -16,7 +15,7 @@ function createBrowserifier(entry) {
 		debug: true,
 		entries: [entry],
 		cache: {},
-		packageCache: {}
+		packageCache: {},
 	})
 		.plugin(tsify)
 		.plugin(watchify)
@@ -47,25 +46,22 @@ gulp.task('clean', () => {
 	return del('./js/**/*');
 });
 
-gulp.task('installTypings', () => {
-	return gulp.src('typings.json').pipe(gulpTypings());
-});
-
 gulp.task('tsc-browserify-src', () => {
-	return bundle(
-		createBrowserifier('./ts/entries/test.ts'),
-		'test.js',
-		'js');
+	return bundle(createBrowserifier('./ts/entries/test.ts'), 'test.js', 'js');
 });
 
 gulp.task('build', () => {
-	return bundleFiles(fs.readdirSync('./ts/entries').filter(name => name.endsWith('.ts')).map(name => name.substr(0, name.length - 3)));
+	return bundleFiles(
+		fs
+			.readdirSync('./ts/entries')
+			.filter(name => name.endsWith('.ts'))
+			.map(name => name.substr(0, name.length - 3))
+	);
 });
 
-gulp.task('default', (done) => {
-	runSequence(['clean', 'installTypings'], 'build', () => {
-		console.log('Watching...')
-		gulp.watch(['ts/**/*.ts'],
-			['build']);
+gulp.task('default', done => {
+	runSequence(['clean'], 'build', () => {
+		console.log('Watching...');
+		gulp.watch(['ts/**/*.ts'], ['build']);
 	});
 });
