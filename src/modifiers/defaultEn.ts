@@ -1,18 +1,20 @@
-import { Collection, escapeRegExp, isAlphaNum, isVowel } from '../Util';
-import { Modifier } from '../Modifier';
+import { Modifier } from '../Tracery';
+import escapeRegExp from '../util/escapeRegExp';
+import isAlphaNum from '../util/isAlphaNum';
+import isVowel from '../util/isVowel';
 
-export var DefaultModifiersEn: Collection<Modifier> = {
-	replace: function(s, params) {
+const DefaultModifiersEn: Record<string, Modifier> = {
+	replace: function (s, params) {
 		//http://stackoverflow.com/questions/1144783/replacing-all-occurrences-of-a-string-in-javascript
 		if (!params || params.length < 2) throw 'Missing regex in modifier';
 
 		return s.replace(new RegExp(escapeRegExp(params[0]), 'g'), params[1]);
 	},
 
-	capitalizeAll: function(s) {
-		var s2 = '';
-		var capNext = true;
-		for (var i = 0; i < s.length; i++) {
+	capitalizeAll: function (s) {
+		let s2 = '';
+		let capNext = true;
+		for (let i = 0; i < s.length; i++) {
 			if (!isAlphaNum(s.charAt(i))) {
 				capNext = true;
 				s2 += s.charAt(i);
@@ -28,11 +30,11 @@ export var DefaultModifiersEn: Collection<Modifier> = {
 		return s2;
 	},
 
-	capitalize: function(s) {
+	capitalize: function (s) {
 		return s.charAt(0).toUpperCase() + s.substring(1);
 	},
 
-	a: function(s) {
+	a: function (s) {
 		if (s.length > 0) {
 			if (s.charAt(0).toLowerCase() === 'u') {
 				if (s.length > 2) {
@@ -48,17 +50,15 @@ export var DefaultModifiersEn: Collection<Modifier> = {
 		return 'a ' + s;
 	},
 
-	firstS: function(s) {
-		console.log(s);
-		var s2 = s.split(' ');
+	firstS: function (s) {
+		const s2 = s.split(' ');
 
-		var finished =
+		const finished =
 			DefaultModifiersEn.s(s2[0]) + ' ' + s2.slice(1).join(' ');
-		console.log(finished);
 		return finished;
 	},
 
-	s: function(s) {
+	s: function (s) {
 		switch (s.charAt(s.length - 1)) {
 			case 's':
 				return s + 'es';
@@ -74,7 +74,8 @@ export var DefaultModifiersEn: Collection<Modifier> = {
 				return s + 's';
 		}
 	},
-	ed: function(s) {
+
+	ed: function (s) {
 		switch (s.charAt(s.length - 1)) {
 			case 's':
 				return s + 'ed';
@@ -93,7 +94,7 @@ export var DefaultModifiersEn: Collection<Modifier> = {
 		}
 	},
 
-	possessive: function(s) {
+	possessive: function (s) {
 		switch (s) {
 			case 'he':
 				return 'his';
@@ -108,7 +109,7 @@ export var DefaultModifiersEn: Collection<Modifier> = {
 			case 'who':
 				return 'whose';
 			default:
-				var last = s.charAt(s.length - 1);
+				const last = s.charAt(s.length - 1);
 
 				if (last === 's') {
 					return s + "'";
@@ -116,5 +117,7 @@ export var DefaultModifiersEn: Collection<Modifier> = {
 
 				return s + "'s";
 		}
-	}
+	},
 };
+
+export default DefaultModifiersEn;

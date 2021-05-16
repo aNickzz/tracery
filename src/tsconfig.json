@@ -1,0 +1,11 @@
+{
+	"compilerOptions": {
+		"target": "es5",
+		"declaration": true,
+		"forceConsistentCasingInFileNames": true,
+		"noImplicitAny": true,
+		"lib": ["ES2015"],
+		"allowJs": true,
+		"outDir": "../lib/umd"
+	}
+}

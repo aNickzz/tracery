@@ -1,0 +1,7 @@
+src/
+lib/esm/test/
+lib/umd/test/
+.vscode
+tsconfig.json
+.mocharc.json
+webpack.config.js
